@@ -1,4 +1,4 @@
-const API_BASE = "https://oita-joho.github.onrender.com";
+const API_BASE = "https://pytest-eqn6.onrender.com";
 //https://oita-joho.github.io/PyTest/
 function byId(id) {
   return document.getElementById(id);
