@@ -1,5 +1,5 @@
-const API_BASE = "https://YOUR-RENDER-URL.onrender.com";
-
+const API_BASE = "https://oita-joho.github.onrender.com";
+//https://oita-joho.github.io/PyTest/
 function byId(id) {
   return document.getElementById(id);
 }
