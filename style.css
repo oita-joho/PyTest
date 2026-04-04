@@ -1,0 +1,129 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #f4f7fb;
+  color: #222;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+button,
+select,
+input {
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 16px;
+  border: 1px solid #bbb;
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.row {
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+select,
+input {
+  width: 100%;
+  max-width: 360px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.status {
+  min-height: 24px;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #eaf1ff;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+pre {
+  background: #f7f7f7;
+  padding: 14px;
+  border-radius: 10px;
+  overflow: auto;
+  line-height: 1.6;
+}
+
+.answerBox {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+  max-width: 360px;
+}
+
+.judge {
+  margin-top: 14px;
+  font-weight: bold;
+  min-height: 24px;
+}
+
+.solution {
+  background: #f7f7f7;
+  border-radius: 10px;
+  padding: 12px;
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+.hidden {
+  display: none;
+}
+
+.ok {
+  color: #127a12;
+}
+
+.ng {
+  color: #b00020;
+}
