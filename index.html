@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python AI問題生成アプリ</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Python AI問題生成アプリ</h1>
+
+    <div class="toolbar">
+      <button id="btnGenerate">新しい問題を生成</button>
+      <button id="btnSimilar" disabled>類題を生成</button>
+      <button id="btnAnswer" disabled>解答を表示</button>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <label for="modeSelect">問題タイプ</label>
+        <select id="modeSelect">
+          <option value="blank">空欄補充</option>
+          <option value="symbol">記号問題</option>
+          <option value="trace">トレース問題</option>
+          <option value="mixed">おまかせ</option>
+        </select>
+      </div>
+
+      <div id="status" class="status"></div>
+
+      <div id="questionArea" class="hidden">
+        <div class="pill" id="questionType"></div>
+        <h2 id="questionText"></h2>
+        <pre id="codeBlock"></pre>
+
+        <div class="answerBox">
+          <label for="userAnswer">答え</label>
+          <input id="userAnswer" type="text" placeholder="ここに入力" />
+          <button id="btnCheck">判定</button>
+        </div>
+
+        <div id="judgeResult" class="judge"></div>
+      </div>
+
+      <div id="solutionArea" class="hidden">
+        <h3>正解</h3>
+        <div id="correctAnswer" class="solution"></div>
+
+        <h3>解説</h3>
+        <div id="explanation" class="solution"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
