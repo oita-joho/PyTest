@@ -163,6 +163,7 @@ pre {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 14px;
+  text-align: center;
 }
 
 .print-meta {
@@ -179,24 +180,18 @@ pre {
   background: #fff;
 }
 
-/* 横幅調整 */
 .meta-box:nth-child(1) {
-  width: 180px; /* 出席番号 */
+  width: 180px;
 }
 
 .meta-box:nth-child(2) {
-  flex: 1; /* 名前は広く */
+  flex: 1;
 }
 
 .meta-box:nth-child(3) {
-  width: 200px; /* 得点 */
+  width: 200px;
   text-align: center;
 }
-
-//
-
-
-
 
 .score-box {
   text-align: center;
@@ -208,16 +203,22 @@ pre {
   }
 
   .print-meta {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .meta-box:nth-child(1),
+  .meta-box:nth-child(2),
+  .meta-box:nth-child(3) {
+    width: 100%;
   }
 }
+
 @media print {
-  .print-meta {
-    display: flex;
-    gap: 20px;
-    align-items: center;
+  body {
+    background: #fff;
+    color: #000;
   }
-}
 
   h1 {
     display: none;
@@ -237,6 +238,25 @@ pre {
   .print-header {
     display: block;
     margin-bottom: 14px;
+  }
+
+  .print-meta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .meta-box:nth-child(1) {
+    width: 180px;
+  }
+
+  .meta-box:nth-child(2) {
+    flex: 1;
+  }
+
+  .meta-box:nth-child(3) {
+    width: 200px;
+    text-align: center;
   }
 
   /* 基礎・標準の解答解説はPDFで非表示 */
