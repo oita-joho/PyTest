@@ -129,7 +129,6 @@ pre {
   }
 }
 
-/* PDF出力用 */
 @media print {
   body {
     background: #fff;
