@@ -16,79 +16,87 @@
     </div>
 
     <!-- app.js が必要とするが、画面には見せない要素 -->
-    <select id="problemSelect" hidden></select>
-    <select id="levelSelect" hidden>
+    <select id="problemSelect" class="hidden"></select>
+
+    <select id="levelSelect" class="hidden">
       <option value="basic">基礎</option>
       <option value="standard">標準</option>
       <option value="advanced">応用</option>
     </select>
 
-    <button id="btnSimilar" hidden>類題</button>
-    <button id="btnAnswer" hidden>解答</button>
-    <button id="btnMasterAnswer" hidden>完成した問題の解答</button>
-    <button id="btnBasicCheck" hidden>基礎判定</button>
-    <button id="btnStandardCheck" hidden>標準判定</button>
+    <button id="btnSimilar" class="hidden">類題</button>
+    <button id="btnAnswer" class="hidden">解答</button>
+    <button id="btnMasterAnswer" class="hidden">完成した問題の解答</button>
+    <button id="btnBasicCheck" class="hidden">基礎判定</button>
+    <button id="btnStandardCheck" class="hidden">標準判定</button>
 
-    <div id="status" hidden></div>
+    <div id="status" class="hidden"></div>
 
     <div id="questionArea">
+      <!-- 上部欄 -->
       <div class="print-header">
         <div class="meta-box">出席番号：</div>
         <div class="meta-box">名前：</div>
         <div class="meta-box">得点：</div>
       </div>
 
+      <!-- 4分割 -->
       <div class="grid4">
+        <!-- 完成した問題 -->
         <div class="card">
           <div class="pill">① 完成した問題</div>
-          <h2 id="masterTitle" hidden></h2>
+          <h2 id="masterTitle"></h2>
           <div id="masterQuestion"></div>
           <pre id="masterCode"></pre>
-          <div>出力：</div>
+          <div class="subhead">出力：</div>
           <div id="masterOutput"></div>
           <div id="masterExplanation"></div>
 
-          <div id="masterAnswerArea" hidden>
+          <div id="masterAnswerArea" class="hidden">
             <div id="masterAnswer"></div>
           </div>
         </div>
 
+        <!-- 基礎 -->
         <div class="card">
           <div class="pill basic">② 基礎</div>
           <div id="basicQuestion"></div>
           <pre id="basicCode"></pre>
 
-          <input id="basicInput" type="text" hidden>
-          <div id="basicJudge" hidden></div>
+          <input id="basicInput" type="text" class="hidden">
+          <div id="basicJudge" class="hidden"></div>
 
-          <div id="basicAnswerArea" hidden>
+          <div id="basicAnswerArea" class="hidden">
             <div id="basicAnswer"></div>
             <div id="basicExplanation"></div>
           </div>
         </div>
 
+        <!-- 標準 -->
         <div class="card">
           <div class="pill standard">③ 標準</div>
           <div id="standardQuestion"></div>
           <pre id="standardCode"></pre>
-          <div>出力：</div>
+          <div class="subhead">出力：</div>
           <div id="standardOutput"></div>
 
-          <input id="standardInput" type="text" hidden>
-          <div id="standardJudge" hidden></div>
+          <input id="standardInput" type="text" class="hidden">
+          <div id="standardJudge" class="hidden"></div>
 
-          <div id="standardAnswerArea" hidden>
+          <div id="standardAnswerArea" class="hidden">
             <div id="standardAnswer"></div>
             <div id="standardExplanation"></div>
           </div>
         </div>
 
+        <!-- 応用 -->
         <div class="card">
           <div class="pill">④ 応用（コードを書け）</div>
           <div id="advancedQuestion"></div>
-          <div>出力：</div>
+          <div class="subhead">出力：</div>
           <div id="advancedOutput"></div>
 
+          <div class="write-area"></div>
           <div class="write-area"></div>
           <div class="write-area"></div>
           <div class="write-area"></div>
