@@ -23,6 +23,7 @@ const masterQuestion = byId("masterQuestion");
 const masterCode = byId("masterCode");
 const masterAnswerArea = byId("masterAnswerArea");
 const masterAnswer = byId("masterAnswer");
+const btnPdf = byId("btnPdf");
 const masterExplanation = byId("masterExplanation");
 
 const basicQuestion = byId("basicQuestion");
@@ -184,5 +185,7 @@ btnStandardCheck.addEventListener("click", () => {
   if (!currentStandard) return;
   checkSingle(standardInput, standardJudge, currentStandard.answer);
 });
-
+btnPdf.addEventListener("click", () => {
+  window.print();
+});
 initProblemSelect();
