@@ -2,112 +2,72 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Python 問題アプリ</title>
+  <title>Python問題</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrap">
-    <h1>Python 問題アプリ</h1>
+<div class="wrap">
 
-    <div class="card controls">
-      <div class="control">
-        <label for="problemSelect">ベース問題</label>
-        <select id="problemSelect"></select>
-      </div>
+<h1>Python 問題プリント</h1>
 
-      <div class="control">
-        <label for="levelSelect">難易度</label>
-        <select id="levelSelect">
-          <option value="basic">基礎</option>
-          <option value="standard">標準（応用）</option>
-        </select>
-      </div>
+<div class="controls">
+  <button id="btnLoad">問題作成</button>
+  <button id="btnPdf">PDF出力</button>
+</div>
 
-      <div class="buttons">
-        <button id="btnLoad">問題を表示</button>
-        <button id="btnSimilar" disabled>類題を作る</button>
-        <button id="btnAnswer" disabled>解答を表示</button>
-        <button id="btnPdf" disabled>PDF出力</button>
-      </div>
-    </div>
+<!-- 上部欄 -->
+<div class="print-header">
+  <div class="meta-box">出席番号：</div>
+  <div class="meta-box">名前：</div>
+  <div class="meta-box">得点：</div>
+</div>
 
-    <div id="status" class="status">ベース問題を選んで「問題を表示」を押してください。</div>
+<!-- 4分割 -->
+<div class="grid4">
 
-    <div id="questionArea" class="hidden">
-      <!-- PDF専用ヘッダー -->
-      <div class="print-header">
-        <div class="print-title">Python 問題プリント</div>
-        <div class="print-meta">
-          <div class="meta-box">出席番号：　　　　　　</div>
-          <div class="meta-box">名前：　　　　　　　　　　　　</div>
-          <div class="meta-box score-box">得点：　　　　 /　　　　 </div>
-        </div>
-      </div>
-
-      <div class="card master-card">
-        <div class="pill">完成した問題</div>
-        <h2 id="masterTitle"></h2>
-        <div id="masterQuestion" class="questionText"></div>
-        <pre id="masterCode"></pre>
-
-        <div class="miniButtons">
-          <button id="btnMasterAnswer">完成した問題の解答を表示</button>
-        </div>
-
-        <div id="masterAnswerArea" class="hidden">
-          <h3>正解</h3>
-          <div id="masterAnswer" class="solution"></div>
-          <h3>解説</h3>
-          <div id="masterExplanation" class="solution"></div>
-        </div>
-      </div>
-
-      <div class="grid2">
-        <div class="card">
-          <div class="pill basic">基礎</div>
-          <div id="basicQuestion" class="questionText"></div>
-          <pre id="basicCode"></pre>
-
-          <label for="basicInput">答え</label>
-          <input id="basicInput" type="text" placeholder="ここに入力">
-          <div class="miniButtons">
-            <button id="btnBasicCheck">判定</button>
-          </div>
-          <div id="basicJudge" class="judge"></div>
-
-          <div id="basicAnswerArea" class="hidden">
-            <h3>正解</h3>
-            <div id="basicAnswer" class="solution"></div>
-            <h3>解説</h3>
-            <div id="basicExplanation" class="solution"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="pill standard">標準（応用）</div>
-          <div id="standardQuestion" class="questionText"></div>
-          <pre id="standardCode"></pre>
-
-          <label for="standardInput">答え</label>
-          <input id="standardInput" type="text" placeholder="ここに入力">
-          <div class="miniButtons">
-            <button id="btnStandardCheck">判定</button>
-          </div>
-          <div id="standardJudge" class="judge"></div>
-
-          <div id="standardAnswerArea" class="hidden">
-            <h3>正解</h3>
-            <div id="standardAnswer" class="solution"></div>
-            <h3>解説</h3>
-            <div id="standardExplanation" class="solution"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <!-- 完成 -->
+  <div class="card">
+    <h2>① 完成した問題</h2>
+    <div id="masterQuestion"></div>
+    <pre id="masterCode"></pre>
+    <div>出力：</div>
+    <div id="masterOutput"></div>
+    <div id="masterExplanation"></div>
   </div>
 
-  <script src="questions.js"></script>
-  <script src="app.js"></script>
+  <!-- 基礎 -->
+  <div class="card">
+    <h2>② 基礎</h2>
+    <div id="basicQuestion"></div>
+    <pre id="basicCode"></pre>
+  </div>
+
+  <!-- 標準 -->
+  <div class="card">
+    <h2>③ 標準</h2>
+    <div id="standardQuestion"></div>
+    <pre id="standardCode"></pre>
+    <div>出力：</div>
+    <div id="standardOutput"></div>
+  </div>
+
+  <!-- 応用 -->
+  <div class="card">
+    <h2>④ 応用（コードを書け）</h2>
+    <div id="advancedQuestion"></div>
+    <div>出力：</div>
+    <div id="advancedOutput"></div>
+
+    <div class="write-area"></div>
+    <div class="write-area"></div>
+    <div class="write-area"></div>
+    <div class="write-area"></div>
+  </div>
+
+</div>
+
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
