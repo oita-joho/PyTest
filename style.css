@@ -211,12 +211,13 @@ pre {
     grid-template-columns: 1fr;
   }
 }
-
 @media print {
-  body {
-    background: #fff;
-    color: #000;
+  .print-meta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
   }
+}
 
   h1 {
     display: none;
