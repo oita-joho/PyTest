@@ -154,26 +154,80 @@ pre {
 .hidden {
   display: none;
 }
+
+.print-header {
+  display: none;
+}
+
+.print-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+.print-meta {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.meta-box {
+  border: 1px solid #444;
+  padding: 10px 12px;
+  min-height: 44px;
+  background: #fff;
+}
+
+.score-box {
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .print-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media print {
   body {
     background: #fff;
     color: #000;
   }
 
+  h1 {
+    display: none;
+  }
+
   .controls,
   .status,
   .miniButtons,
-  #btnPdf,
-  #btnLoad,
-  #btnSimilar,
-  #btnAnswer,
-  #btnMasterAnswer,
-  #btnBasicCheck,
-  #btnStandardCheck,
+  button,
   input,
   select,
-  button {
+  .judge,
+  label {
     display: none !important;
+  }
+
+  .print-header {
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  /* 基礎・標準の解答解説はPDFで非表示 */
+  #basicAnswerArea,
+  #standardAnswerArea {
+    display: none !important;
+  }
+
+  /* 完成した問題の解答解説はPDFに出す */
+  #masterAnswerArea {
+    display: block !important;
   }
 
   .wrap {
@@ -185,8 +239,10 @@ pre {
   .card {
     box-shadow: none;
     border: 1px solid #999;
-    break-inside: avoid;
+    border-radius: 0;
     page-break-inside: avoid;
+    break-inside: avoid;
+    background: #fff;
   }
 
   .grid2 {
@@ -194,23 +250,15 @@ pre {
     gap: 12px;
   }
 
-  .hidden {
-    display: block !important;
-  }
-
   pre {
-    overflow: visible;
-    white-space: pre-wrap;
-    word-break: break-word;
+    background: #fff;
     border: 1px solid #ccc;
+    white-space: pre-wrap;
+    overflow: visible;
   }
 
   .solution {
+    background: #fff;
     border: 1px solid #ccc;
-  }
-}
-@media (max-width: 900px) {
-  .grid2 {
-    grid-template-columns: 1fr;
   }
 }
