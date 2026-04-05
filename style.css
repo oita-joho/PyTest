@@ -166,18 +166,37 @@ pre {
 }
 
 .print-meta {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 12px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
   margin-bottom: 18px;
 }
 
 .meta-box {
   border: 1px solid #444;
   padding: 10px 12px;
-  min-height: 44px;
+  min-height: 40px;
   background: #fff;
 }
+
+/* 横幅調整 */
+.meta-box:nth-child(1) {
+  width: 180px; /* 出席番号 */
+}
+
+.meta-box:nth-child(2) {
+  flex: 1; /* 名前は広く */
+}
+
+.meta-box:nth-child(3) {
+  width: 200px; /* 得点 */
+  text-align: center;
+}
+
+//
+
+
+
 
 .score-box {
   text-align: center;
