@@ -15,9 +15,8 @@
       <button id="btnPdf">PDF出力</button>
     </div>
 
-    <!-- app.js が必要とするが、画面には見せない要素 -->
+    <!-- app.js用の隠し要素 -->
     <select id="problemSelect" class="hidden"></select>
-
     <select id="levelSelect" class="hidden">
       <option value="basic">基礎</option>
       <option value="standard">標準</option>
@@ -29,18 +28,15 @@
     <button id="btnMasterAnswer" class="hidden">完成した問題の解答</button>
     <button id="btnBasicCheck" class="hidden">基礎判定</button>
     <button id="btnStandardCheck" class="hidden">標準判定</button>
-
     <div id="status" class="hidden"></div>
 
     <div id="questionArea">
-      <!-- 上部欄 -->
       <div class="print-header">
         <div class="meta-box">出席番号：</div>
         <div class="meta-box">名前：</div>
         <div class="meta-box">得点：</div>
       </div>
 
-      <!-- 4分割 -->
       <div class="grid4">
         <!-- 完成した問題 -->
         <div class="card">
