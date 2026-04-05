@@ -22,9 +22,10 @@ const questionArea = byId("questionArea");
 const masterTitle = byId("masterTitle");
 const masterQuestion = byId("masterQuestion");
 const masterCode = byId("masterCode");
+const masterOutput = byId("masterOutput");
+const masterExplanation = byId("masterExplanation");
 const masterAnswerArea = byId("masterAnswerArea");
 const masterAnswer = byId("masterAnswer");
-const masterExplanation = byId("masterExplanation");
 
 const basicQuestion = byId("basicQuestion");
 const basicCode = byId("basicCode");
@@ -38,16 +39,23 @@ const standardQuestion = byId("standardQuestion");
 const standardCode = byId("standardCode");
 const standardInput = byId("standardInput");
 const standardJudge = byId("standardJudge");
+const standardOutput = byId("standardOutput");
 const standardAnswerArea = byId("standardAnswerArea");
 const standardAnswer = byId("standardAnswer");
 const standardExplanation = byId("standardExplanation");
 
+const advancedQuestion = byId("advancedQuestion");
+const advancedOutput = byId("advancedOutput");
+
 let currentBase = null;
 let currentBasic = null;
 let currentStandard = null;
+let currentAdvanced = null;
 
 function setStatus(text) {
-  statusEl.textContent = text || "";
+  if (statusEl) {
+    statusEl.textContent = text || "";
+  }
 }
 
 function normalizeText(v) {
@@ -60,7 +68,10 @@ function normalizeText(v) {
 }
 
 function initProblemSelect() {
+  if (!problemSelect || !window.baseProblems) return;
+
   problemSelect.innerHTML = "";
+
   baseProblems.forEach(problem => {
     const opt = document.createElement("option");
     opt.value = problem.id;
@@ -74,43 +85,108 @@ function getBaseById(id) {
 }
 
 function renderMaster(problem) {
-  masterTitle.textContent = problem.title;
-  masterQuestion.textContent = problem.master.question;
-  masterCode.textContent = problem.master.code;
-  masterAnswer.textContent = problem.master.answer;
-  masterExplanation.textContent = problem.master.explanation;
-  masterAnswerArea.classList.add("hidden");
+  if (!problem) return;
+
+  if (masterTitle) {
+    masterTitle.textContent = problem.title || "";
+  }
+  if (masterQuestion) {
+    masterQuestion.textContent = problem.master?.question || "";
+  }
+  if (masterCode) {
+    masterCode.textContent = problem.master?.code || "";
+  }
+  if (masterOutput) {
+    masterOutput.textContent = problem.master?.answer || "";
+  }
+  if (masterAnswer) {
+    masterAnswer.textContent = problem.master?.answer || "";
+  }
+  if (masterExplanation) {
+    masterExplanation.textContent = problem.master?.explanation || "";
+  }
+  if (masterAnswerArea) {
+    masterAnswerArea.classList.add("hidden");
+  }
 }
 
 function renderBasic(data) {
-  currentBasic = data;
-  basicQuestion.textContent = data.question;
-  basicCode.textContent = data.code;
-  basicInput.value = "";
-  basicJudge.textContent = "";
-  basicJudge.className = "judge";
-  basicAnswer.textContent = data.answer;
-  basicExplanation.textContent = data.explanation;
+  if (!data) return;
 
-  /* 画面では表示しておいても、PDFでは消える */
-  basicAnswerArea.classList.remove("hidden");
+  currentBasic = data;
+
+  if (basicQuestion) {
+    basicQuestion.textContent = data.question || "";
+  }
+  if (basicCode) {
+    basicCode.textContent = data.code || "";
+  }
+  if (basicInput) {
+    basicInput.value = "";
+  }
+  if (basicJudge) {
+    basicJudge.textContent = "";
+    basicJudge.className = "judge";
+  }
+  if (basicAnswer) {
+    basicAnswer.textContent = data.answer || "";
+  }
+  if (basicExplanation) {
+    basicExplanation.textContent = data.explanation || "";
+  }
+  if (basicAnswerArea) {
+    basicAnswerArea.classList.remove("hidden");
+  }
 }
 
 function renderStandard(data) {
-  currentStandard = data;
-  standardQuestion.textContent = data.question;
-  standardCode.textContent = data.code;
-  standardInput.value = "";
-  standardJudge.textContent = "";
-  standardJudge.className = "judge";
-  standardAnswer.textContent = data.answer;
-  standardExplanation.textContent = data.explanation;
+  if (!data) return;
 
-  /* 画面では表示しておいても、PDFでは消える */
-  standardAnswerArea.classList.remove("hidden");
+  currentStandard = data;
+
+  if (standardQuestion) {
+    standardQuestion.textContent = data.question || "";
+  }
+  if (standardCode) {
+    standardCode.textContent = data.code || "";
+  }
+  if (standardInput) {
+    standardInput.value = "";
+  }
+  if (standardJudge) {
+    standardJudge.textContent = "";
+    standardJudge.className = "judge";
+  }
+  if (standardOutput) {
+    standardOutput.textContent = data.answer || "";
+  }
+  if (standardAnswer) {
+    standardAnswer.textContent = data.answer || "";
+  }
+  if (standardExplanation) {
+    standardExplanation.textContent = data.explanation || "";
+  }
+  if (standardAnswerArea) {
+    standardAnswerArea.classList.remove("hidden");
+  }
+}
+
+function renderAdvanced(data) {
+  if (!data) return;
+
+  currentAdvanced = data;
+
+  if (advancedQuestion) {
+    advancedQuestion.textContent = data.question || "";
+  }
+  if (advancedOutput) {
+    advancedOutput.textContent = data.output || "";
+  }
 }
 
 function loadProblemSet() {
+  if (!problemSelect) return;
+
   const baseId = problemSelect.value;
   currentBase = getBaseById(baseId);
 
@@ -119,43 +195,72 @@ function loadProblemSet() {
     return;
   }
 
-  const basicData = currentBase.levels.basic();
-  const standardData = currentBase.levels.standard();
+  const basicData = currentBase.levels?.basic ? currentBase.levels.basic() : null;
+  const standardData = currentBase.levels?.standard ? currentBase.levels.standard() : null;
+  const advancedData = currentBase.levels?.advanced ? currentBase.levels.advanced() : null;
 
   renderMaster(currentBase);
-  renderBasic(basicData);
-  renderStandard(standardData);
 
-  questionArea.classList.remove("hidden");
-  btnSimilar.disabled = false;
-  btnAnswer.disabled = false;
-  btnPdf.disabled = false;
+  if (basicData) {
+    renderBasic(basicData);
+  }
+  if (standardData) {
+    renderStandard(standardData);
+  }
+  if (advancedData) {
+    renderAdvanced(advancedData);
+  }
+
+  if (questionArea) {
+    questionArea.classList.remove("hidden");
+  }
+
+  if (btnSimilar) {
+    btnSimilar.disabled = false;
+  }
+  if (btnAnswer) {
+    btnAnswer.disabled = false;
+  }
+  if (btnPdf) {
+    btnPdf.disabled = false;
+  }
 
   setStatus("問題を表示しました。");
 }
 
 function makeSimilar() {
-  if (!currentBase) return;
+  if (!currentBase || !levelSelect) return;
 
   const level = levelSelect.value;
 
-  if (level === "basic") {
+  if (level === "basic" && currentBase.levels?.basic) {
     renderBasic(currentBase.levels.basic());
     setStatus("基礎の類題を作成しました。");
     return;
   }
 
-  if (level === "standard") {
+  if (level === "standard" && currentBase.levels?.standard) {
     renderStandard(currentBase.levels.standard());
     setStatus("標準の類題を作成しました。");
+    return;
+  }
+
+  if (level === "advanced" && currentBase.levels?.advanced) {
+    renderAdvanced(currentBase.levels.advanced());
+    setStatus("応用の類題を作成しました。");
+    return;
   }
 }
 
 function showMasterAnswer() {
-  masterAnswerArea.classList.remove("hidden");
+  if (masterAnswerArea) {
+    masterAnswerArea.classList.remove("hidden");
+  }
 }
 
 function checkSingle(inputEl, judgeEl, answerValue) {
+  if (!inputEl || !judgeEl) return;
+
   const user = normalizeText(inputEl.value);
   const answer = normalizeText(answerValue);
 
@@ -171,28 +276,49 @@ function checkSingle(inputEl, judgeEl, answerValue) {
 function exportPdfView() {
   if (!currentBase) return;
 
-  /* PDFには完成した問題の解答・解説を出す */
-  masterAnswerArea.classList.remove("hidden");
+  if (masterAnswerArea) {
+    masterAnswerArea.classList.remove("hidden");
+  }
+
   window.print();
 }
 
-btnLoad.addEventListener("click", loadProblemSet);
-btnSimilar.addEventListener("click", makeSimilar);
-btnAnswer.addEventListener("click", showMasterAnswer);
-btnPdf.addEventListener("click", exportPdfView);
+if (btnLoad) {
+  btnLoad.addEventListener("click", loadProblemSet);
+}
 
-btnMasterAnswer.addEventListener("click", () => {
-  masterAnswerArea.classList.remove("hidden");
-});
+if (btnSimilar) {
+  btnSimilar.addEventListener("click", makeSimilar);
+}
 
-btnBasicCheck.addEventListener("click", () => {
-  if (!currentBasic) return;
-  checkSingle(basicInput, basicJudge, currentBasic.answer);
-});
+if (btnAnswer) {
+  btnAnswer.addEventListener("click", showMasterAnswer);
+}
 
-btnStandardCheck.addEventListener("click", () => {
-  if (!currentStandard) return;
-  checkSingle(standardInput, standardJudge, currentStandard.answer);
-});
+if (btnPdf) {
+  btnPdf.addEventListener("click", exportPdfView);
+}
+
+if (btnMasterAnswer) {
+  btnMasterAnswer.addEventListener("click", () => {
+    if (masterAnswerArea) {
+      masterAnswerArea.classList.remove("hidden");
+    }
+  });
+}
+
+if (btnBasicCheck) {
+  btnBasicCheck.addEventListener("click", () => {
+    if (!currentBasic) return;
+    checkSingle(basicInput, basicJudge, currentBasic.answer);
+  });
+}
+
+if (btnStandardCheck) {
+  btnStandardCheck.addEventListener("click", () => {
+    if (!currentStandard) return;
+    checkSingle(standardInput, standardJudge, currentStandard.answer);
+  });
+}
 
 initProblemSelect();
