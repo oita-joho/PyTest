@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Python問題アプリ</title>
+  <title>Python 問題アプリ</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,24 +25,36 @@
       </div>
 
       <div class="buttons">
-  <button id="btnLoad">問題を表示</button>
-  <button id="btnSimilar" disabled>類題を作る</button>
-  <button id="btnAnswer" disabled>解答を表示</button>
-  <button id="btnPdf">PDF出力</button>
-</div>
+        <button id="btnLoad">問題を表示</button>
+        <button id="btnSimilar" disabled>類題を作る</button>
+        <button id="btnAnswer" disabled>解答を表示</button>
+        <button id="btnPdf" disabled>PDF出力</button>
+      </div>
     </div>
 
     <div id="status" class="status">ベース問題を選んで「問題を表示」を押してください。</div>
 
     <div id="questionArea" class="hidden">
+      <!-- PDF専用ヘッダー -->
+      <div class="print-header">
+        <div class="print-title">Python 問題プリント</div>
+        <div class="print-meta">
+          <div class="meta-box">出席番号：　　　　　　</div>
+          <div class="meta-box">名前：　　　　　　　　　　　　</div>
+          <div class="meta-box score-box">得点：　　　　 /　　　　 </div>
+        </div>
+      </div>
+
       <div class="card master-card">
         <div class="pill">完成した問題</div>
         <h2 id="masterTitle"></h2>
         <div id="masterQuestion" class="questionText"></div>
         <pre id="masterCode"></pre>
+
         <div class="miniButtons">
           <button id="btnMasterAnswer">完成した問題の解答を表示</button>
         </div>
+
         <div id="masterAnswerArea" class="hidden">
           <h3>正解</h3>
           <div id="masterAnswer" class="solution"></div>
