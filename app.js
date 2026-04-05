@@ -11,6 +11,7 @@ const levelSelect = byId("levelSelect");
 const btnLoad = byId("btnLoad");
 const btnSimilar = byId("btnSimilar");
 const btnAnswer = byId("btnAnswer");
+const btnPdf = byId("btnPdf");
 const btnMasterAnswer = byId("btnMasterAnswer");
 const btnBasicCheck = byId("btnBasicCheck");
 const btnStandardCheck = byId("btnStandardCheck");
@@ -23,7 +24,6 @@ const masterQuestion = byId("masterQuestion");
 const masterCode = byId("masterCode");
 const masterAnswerArea = byId("masterAnswerArea");
 const masterAnswer = byId("masterAnswer");
-const btnPdf = byId("btnPdf");
 const masterExplanation = byId("masterExplanation");
 
 const basicQuestion = byId("basicQuestion");
@@ -91,7 +91,9 @@ function renderBasic(data) {
   basicJudge.className = "judge";
   basicAnswer.textContent = data.answer;
   basicExplanation.textContent = data.explanation;
-  basicAnswerArea.classList.add("hidden");
+
+  /* 画面では表示しておいても、PDFでは消える */
+  basicAnswerArea.classList.remove("hidden");
 }
 
 function renderStandard(data) {
@@ -103,7 +105,9 @@ function renderStandard(data) {
   standardJudge.className = "judge";
   standardAnswer.textContent = data.answer;
   standardExplanation.textContent = data.explanation;
-  standardAnswerArea.classList.add("hidden");
+
+  /* 画面では表示しておいても、PDFでは消える */
+  standardAnswerArea.classList.remove("hidden");
 }
 
 function loadProblemSet() {
@@ -125,6 +129,7 @@ function loadProblemSet() {
   questionArea.classList.remove("hidden");
   btnSimilar.disabled = false;
   btnAnswer.disabled = false;
+  btnPdf.disabled = false;
 
   setStatus("問題を表示しました。");
 }
@@ -143,14 +148,11 @@ function makeSimilar() {
   if (level === "standard") {
     renderStandard(currentBase.levels.standard());
     setStatus("標準の類題を作成しました。");
-    return;
   }
 }
 
-function showAllAnswers() {
+function showMasterAnswer() {
   masterAnswerArea.classList.remove("hidden");
-  basicAnswerArea.classList.remove("hidden");
-  standardAnswerArea.classList.remove("hidden");
 }
 
 function checkSingle(inputEl, judgeEl, answerValue) {
@@ -166,11 +168,18 @@ function checkSingle(inputEl, judgeEl, answerValue) {
   }
 }
 
+function exportPdfView() {
+  if (!currentBase) return;
+
+  /* PDFには完成した問題の解答・解説を出す */
+  masterAnswerArea.classList.remove("hidden");
+  window.print();
+}
+
 btnLoad.addEventListener("click", loadProblemSet);
-
 btnSimilar.addEventListener("click", makeSimilar);
-
-btnAnswer.addEventListener("click", showAllAnswers);
+btnAnswer.addEventListener("click", showMasterAnswer);
+btnPdf.addEventListener("click", exportPdfView);
 
 btnMasterAnswer.addEventListener("click", () => {
   masterAnswerArea.classList.remove("hidden");
@@ -185,7 +194,5 @@ btnStandardCheck.addEventListener("click", () => {
   if (!currentStandard) return;
   checkSingle(standardInput, standardJudge, currentStandard.answer);
 });
-btnPdf.addEventListener("click", () => {
-  window.print();
-});
+
 initProblemSelect();
