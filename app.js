@@ -53,9 +53,7 @@ let currentStandard = null;
 let currentAdvanced = null;
 
 function setStatus(text) {
-  if (statusEl) {
-    statusEl.textContent = text || "";
-  }
+  if (statusEl) statusEl.textContent = text || "";
 }
 
 function normalizeText(v) {
@@ -68,10 +66,9 @@ function normalizeText(v) {
 }
 
 function initProblemSelect() {
-  if (!problemSelect || !window.baseProblems) return;
+  if (!problemSelect || typeof baseProblems === "undefined") return;
 
   problemSelect.innerHTML = "";
-
   baseProblems.forEach(problem => {
     const opt = document.createElement("option");
     opt.value = problem.id;
@@ -81,107 +78,57 @@ function initProblemSelect() {
 }
 
 function getBaseById(id) {
+  if (typeof baseProblems === "undefined") return null;
   return baseProblems.find(p => p.id === id) || null;
 }
 
 function renderMaster(problem) {
   if (!problem) return;
 
-  if (masterTitle) {
-    masterTitle.textContent = problem.title || "";
-  }
-  if (masterQuestion) {
-    masterQuestion.textContent = problem.master?.question || "";
-  }
-  if (masterCode) {
-    masterCode.textContent = problem.master?.code || "";
-  }
-  if (masterOutput) {
-    masterOutput.textContent = problem.master?.answer || "";
-  }
-  if (masterAnswer) {
-    masterAnswer.textContent = problem.master?.answer || "";
-  }
-  if (masterExplanation) {
-    masterExplanation.textContent = problem.master?.explanation || "";
-  }
-  if (masterAnswerArea) {
-    masterAnswerArea.classList.add("hidden");
-  }
+  masterTitle.textContent = problem.title || "";
+  masterQuestion.textContent = problem.master?.question || "";
+  masterCode.textContent = problem.master?.code || "";
+  masterOutput.textContent = problem.master?.answer || "";
+  masterAnswer.textContent = problem.master?.answer || "";
+  masterExplanation.textContent = problem.master?.explanation || "";
+  masterAnswerArea.classList.add("hidden");
 }
 
 function renderBasic(data) {
   if (!data) return;
 
   currentBasic = data;
-
-  if (basicQuestion) {
-    basicQuestion.textContent = data.question || "";
-  }
-  if (basicCode) {
-    basicCode.textContent = data.code || "";
-  }
-  if (basicInput) {
-    basicInput.value = "";
-  }
-  if (basicJudge) {
-    basicJudge.textContent = "";
-    basicJudge.className = "judge";
-  }
-  if (basicAnswer) {
-    basicAnswer.textContent = data.answer || "";
-  }
-  if (basicExplanation) {
-    basicExplanation.textContent = data.explanation || "";
-  }
-  if (basicAnswerArea) {
-    basicAnswerArea.classList.remove("hidden");
-  }
+  basicQuestion.textContent = data.question || "";
+  basicCode.textContent = data.code || "";
+  basicInput.value = "";
+  basicJudge.textContent = "";
+  basicJudge.className = "judge";
+  basicAnswer.textContent = data.answer || "";
+  basicExplanation.textContent = data.explanation || "";
+  basicAnswerArea.classList.remove("hidden");
 }
 
 function renderStandard(data) {
   if (!data) return;
 
   currentStandard = data;
-
-  if (standardQuestion) {
-    standardQuestion.textContent = data.question || "";
-  }
-  if (standardCode) {
-    standardCode.textContent = data.code || "";
-  }
-  if (standardInput) {
-    standardInput.value = "";
-  }
-  if (standardJudge) {
-    standardJudge.textContent = "";
-    standardJudge.className = "judge";
-  }
-  if (standardOutput) {
-    standardOutput.textContent = data.answer || "";
-  }
-  if (standardAnswer) {
-    standardAnswer.textContent = data.answer || "";
-  }
-  if (standardExplanation) {
-    standardExplanation.textContent = data.explanation || "";
-  }
-  if (standardAnswerArea) {
-    standardAnswerArea.classList.remove("hidden");
-  }
+  standardQuestion.textContent = data.question || "";
+  standardCode.textContent = data.code || "";
+  standardInput.value = "";
+  standardJudge.textContent = "";
+  standardJudge.className = "judge";
+  standardOutput.textContent = data.answer || "";
+  standardAnswer.textContent = data.answer || "";
+  standardExplanation.textContent = data.explanation || "";
+  standardAnswerArea.classList.remove("hidden");
 }
 
 function renderAdvanced(data) {
   if (!data) return;
 
   currentAdvanced = data;
-
-  if (advancedQuestion) {
-    advancedQuestion.textContent = data.question || "";
-  }
-  if (advancedOutput) {
-    advancedOutput.textContent = data.output || "";
-  }
+  advancedQuestion.textContent = data.question || "";
+  advancedOutput.textContent = data.output || "";
 }
 
 function loadProblemSet() {
@@ -200,30 +147,15 @@ function loadProblemSet() {
   const advancedData = currentBase.levels?.advanced ? currentBase.levels.advanced() : null;
 
   renderMaster(currentBase);
+  if (basicData) renderBasic(basicData);
+  if (standardData) renderStandard(standardData);
+  if (advancedData) renderAdvanced(advancedData);
 
-  if (basicData) {
-    renderBasic(basicData);
-  }
-  if (standardData) {
-    renderStandard(standardData);
-  }
-  if (advancedData) {
-    renderAdvanced(advancedData);
-  }
+  questionArea.classList.remove("hidden");
 
-  if (questionArea) {
-    questionArea.classList.remove("hidden");
-  }
-
-  if (btnSimilar) {
-    btnSimilar.disabled = false;
-  }
-  if (btnAnswer) {
-    btnAnswer.disabled = false;
-  }
-  if (btnPdf) {
-    btnPdf.disabled = false;
-  }
+  if (btnSimilar) btnSimilar.disabled = false;
+  if (btnAnswer) btnAnswer.disabled = false;
+  if (btnPdf) btnPdf.disabled = false;
 
   setStatus("問題を表示しました。");
 }
@@ -248,19 +180,14 @@ function makeSimilar() {
   if (level === "advanced" && currentBase.levels?.advanced) {
     renderAdvanced(currentBase.levels.advanced());
     setStatus("応用の類題を作成しました。");
-    return;
   }
 }
 
 function showMasterAnswer() {
-  if (masterAnswerArea) {
-    masterAnswerArea.classList.remove("hidden");
-  }
+  masterAnswerArea.classList.remove("hidden");
 }
 
 function checkSingle(inputEl, judgeEl, answerValue) {
-  if (!inputEl || !judgeEl) return;
-
   const user = normalizeText(inputEl.value);
   const answer = normalizeText(answerValue);
 
@@ -275,35 +202,18 @@ function checkSingle(inputEl, judgeEl, answerValue) {
 
 function exportPdfView() {
   if (!currentBase) return;
-
-  if (masterAnswerArea) {
-    masterAnswerArea.classList.remove("hidden");
-  }
-
+  masterAnswerArea.classList.remove("hidden");
   window.print();
 }
 
-if (btnLoad) {
-  btnLoad.addEventListener("click", loadProblemSet);
-}
-
-if (btnSimilar) {
-  btnSimilar.addEventListener("click", makeSimilar);
-}
-
-if (btnAnswer) {
-  btnAnswer.addEventListener("click", showMasterAnswer);
-}
-
-if (btnPdf) {
-  btnPdf.addEventListener("click", exportPdfView);
-}
+if (btnLoad) btnLoad.addEventListener("click", loadProblemSet);
+if (btnSimilar) btnSimilar.addEventListener("click", makeSimilar);
+if (btnAnswer) btnAnswer.addEventListener("click", showMasterAnswer);
+if (btnPdf) btnPdf.addEventListener("click", exportPdfView);
 
 if (btnMasterAnswer) {
   btnMasterAnswer.addEventListener("click", () => {
-    if (masterAnswerArea) {
-      masterAnswerArea.classList.remove("hidden");
-    }
+    masterAnswerArea.classList.remove("hidden");
   });
 }
 
