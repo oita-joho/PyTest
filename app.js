@@ -1,4 +1,3 @@
-//
 function byId(id) {
   return document.getElementById(id);
 }
@@ -7,9 +6,14 @@ const toolsText = byId("toolsText");
 const taskText = byId("taskText");
 const promptBox = byId("promptBox");
 const jsonBox = byId("jsonBox");
+
+const btnExample1 = byId("btnExample1");
+const btnExample2 = byId("btnExample2");
 const btnMakePrompt = byId("btnMakePrompt");
+const btnCopyPrompt = byId("btnCopyPrompt");
 const btnLoadJson = byId("btnLoadJson");
 const btnPdf = byId("btnPdf");
+
 const statusEl = byId("status");
 
 const masterQuestion = byId("masterQuestion");
@@ -65,37 +69,52 @@ ${task}
 - 必ずJSONのみを返す
 - コードはPythonにする
 
-返すJSONはこの形にしてください:
+返すJSONはこの形式にしてください:
+
 {
   "master": {
-    "question": "...",
-    "code": "...",
-    "output": "...",
-    "answer": "...",
-    "explanation": "..."
+    "question": "",
+    "code": "",
+    "output": "",
+    "answer": "",
+    "explanation": ""
   },
   "basic": {
-    "question": "...",
-    "code": "...",
-    "answer": "...",
-    "explanation": "..."
+    "question": "",
+    "code": "",
+    "answer": "",
+    "explanation": ""
   },
   "standard": {
-    "question": "...",
-    "code": "...",
-    "output": "...",
-    "answer": "...",
-    "explanation": "..."
+    "question": "",
+    "code": "",
+    "output": "",
+    "answer": "",
+    "explanation": ""
   },
   "advanced": {
-    "question": "...",
-    "output": "..."
+    "question": "",
+    "output": ""
   }
 }
 `.trim();
 
   promptBox.value = prompt;
-  setStatus("AI用プロンプトを作成しました。AIに貼り付けて、返ってきたJSONを下に貼ってください。");
+  setStatus("AI用プロンプトを作成しました。無料AIに貼り付けて、返ってきたJSONを下に貼ってください。");
+}
+
+async function copyPrompt() {
+  if (!promptBox.value.trim()) {
+    setStatus("先にAI用プロンプトを作成してください。");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(promptBox.value);
+    setStatus("プロンプトをコピーしました。");
+  } catch (err) {
+    setStatus("コピーに失敗しました。手動でコピーしてください。");
+  }
 }
 
 function renderFromJson(data) {
@@ -121,12 +140,15 @@ function renderFromJson(data) {
 }
 
 function loadJson() {
-  const text = jsonBox.value.trim();
+  let text = jsonBox.value.trim();
 
   if (!text) {
     setStatus("AIが返したJSONを貼ってください。");
     return;
   }
+
+  // ```json ... ``` を除去
+  text = text.replace(/```json/gi, "").replace(/```/g, "").trim();
 
   try {
     const data = JSON.parse(text);
@@ -141,6 +163,21 @@ function exportPdf() {
   window.print();
 }
 
+function setExample1() {
+  toolsText.value = "for, range, print";
+  taskText.value = "ある文字列を4回表示する";
+  setStatus("例1を入力しました。");
+}
+
+function setExample2() {
+  toolsText.value = "for, range, print";
+  taskText.value = "3から7まで順番に表示する";
+  setStatus("例2を入力しました。");
+}
+
+btnExample1.addEventListener("click", setExample1);
+btnExample2.addEventListener("click", setExample2);
 btnMakePrompt.addEventListener("click", makePrompt);
+btnCopyPrompt.addEventListener("click", copyPrompt);
 btnLoadJson.addEventListener("click", loadJson);
 btnPdf.addEventListener("click", exportPdf);
