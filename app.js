@@ -15,6 +15,7 @@ const btnRenderJson = document.getElementById("btnRenderJson");
 const btnResetJson = document.getElementById("btnResetJson");
 const btnSaveJson = document.getElementById("btnSaveJson");
 const btnPdf = document.getElementById("btnPdf");
+const btnGemini = document.getElementById("btnGemini");
 
 let currentTasks = [];
 
@@ -226,7 +227,6 @@ function createResultCard(title, obj) {
 }
 
 function buildPdfHtml(data) {
-  const tools = toolsSelect.value || "";
   const taskItem = getSelectedTaskItem();
   const task = taskItem ? taskItem.task : "";
   const note = taskItem && taskItem.note ? taskItem.note : "この処理の理解を確認する問題";
@@ -407,6 +407,41 @@ async function saveJsonToSheet() {
   }
 }
 
+async function generateJsonWithGemini() {
+  const prompt = promptText.value.trim();
+
+  if (!prompt) {
+    setStatus("先にプロンプトを作成してください。");
+    return;
+  }
+
+  try {
+    setStatus("GeminiでJSONを生成しています...");
+
+    const data = await fetchJson(GAS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify({
+        action: "generateWithGemini",
+        prompt: prompt
+      })
+    });
+
+    if (!data.ok || !data.text) {
+      setStatus("Geminiでの生成に失敗しました。");
+      return;
+    }
+
+    jsonInput.value = data.text;
+    renderJson();
+    setStatus("GeminiでJSONを生成し、⑤に入力しました。");
+  } catch (error) {
+    setStatus("Gemini生成エラー: " + error.message);
+  }
+}
+
 toolsSelect.addEventListener("change", async () => {
   const tools = toolsSelect.value;
   promptText.value = "";
@@ -483,5 +518,6 @@ btnResetJson.addEventListener("click", () => {
 
 btnSaveJson.addEventListener("click", saveJsonToSheet);
 btnPdf.addEventListener("click", exportPdf);
+btnGemini.addEventListener("click", generateJsonWithGemini);
 
 loadTools();
