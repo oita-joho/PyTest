@@ -429,10 +429,15 @@ async function generateJsonWithGemini() {
       })
     });
 
-    if (!data.ok || !data.text) {
-      setStatus("Geminiでの生成に失敗しました。");
-      return;
-    }
+    if (!data.ok) {
+  setStatus("Geminiエラー: " + (data.message || "不明なエラー"));
+  return;
+}
+
+if (!data.text) {
+  setStatus("Geminiの結果が空です");
+  return;
+}
 
     jsonInput.value = data.text;
     renderJson();
