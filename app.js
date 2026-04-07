@@ -6,6 +6,7 @@ const noteBox = document.getElementById("noteBox");
 const promptText = document.getElementById("promptText");
 const jsonInput = document.getElementById("jsonInput");
 const output = document.getElementById("output");
+const pdfArea = document.getElementById("pdfArea");
 const statusEl = document.getElementById("status");
 
 const btnMakePrompt = document.getElementById("btnMakePrompt");
@@ -224,11 +225,100 @@ function createResultCard(title, obj) {
   return html;
 }
 
+function buildPdfHtml(data) {
+  const tools = toolsSelect.value || "";
+  const taskItem = getSelectedTaskItem();
+  const task = taskItem ? taskItem.task : "";
+  const note = taskItem && taskItem.note ? taskItem.note : "この処理の理解を確認する問題";
+
+  return `
+    <div class="pdf-sheet">
+      <div class="pdf-main-title">プログラム確認問題</div>
+
+      <div class="pdf-intent">
+        <strong>タイトル</strong>　${escapeHtml(task || "未設定")}<br>
+        <strong>どんな意図の問題</strong>　${escapeHtml(note)}
+      </div>
+
+      <div class="pdf-meta-row">
+        <div class="pdf-meta-cell">番号</div>
+        <div class="pdf-meta-cell">氏名</div>
+        <div class="pdf-meta-cell">得点</div>
+      </div>
+
+      <div class="pdf-section">
+        <div class="pdf-section-title">完成した問題</div>
+        <div class="pdf-question">
+          <div class="pdf-label">問題</div>
+          <div>${nl2br(data.master.question)}</div>
+        </div>
+        <div class="pdf-code">
+          <div class="pdf-label">コード</div>
+          <div class="pdf-code-box">${escapeHtml(data.master.code)}</div>
+        </div>
+        <div class="pdf-output">
+          <div class="pdf-label">出力</div>
+          <div class="pdf-output-box">${nl2br(data.master.output)}</div>
+        </div>
+      </div>
+
+      <div class="pdf-section">
+        <div class="pdf-section-title">基礎</div>
+        <div class="pdf-question">
+          <div class="pdf-label">問題</div>
+          <div>${nl2br(data.basic.question)}</div>
+        </div>
+        <div class="pdf-code">
+          <div class="pdf-label">コード</div>
+          <div class="pdf-code-box">${escapeHtml(data.basic.code)}</div>
+        </div>
+        <div class="pdf-answer-space">
+          <div class="pdf-label">解答欄</div>
+          <div class="pdf-answer-lines"></div>
+        </div>
+      </div>
+
+      <div class="pdf-section">
+        <div class="pdf-section-title">標準</div>
+        <div class="pdf-question">
+          <div class="pdf-label">問題</div>
+          <div>${nl2br(data.standard.question)}</div>
+        </div>
+        <div class="pdf-code">
+          <div class="pdf-label">コード</div>
+          <div class="pdf-code-box">${escapeHtml(data.standard.code)}</div>
+        </div>
+        <div class="pdf-answer-space">
+          <div class="pdf-label">解答欄</div>
+          <div class="pdf-answer-lines"></div>
+        </div>
+      </div>
+
+      <div class="pdf-section">
+        <div class="pdf-section-title">応用</div>
+        <div class="pdf-question">
+          <div class="pdf-label">問題</div>
+          <div>${nl2br(data.advanced.question)}</div>
+        </div>
+        <div class="pdf-output">
+          <div class="pdf-label">出力結果</div>
+          <div class="pdf-output-box">${nl2br(data.advanced.output)}</div>
+        </div>
+        <div class="pdf-code-space">
+          <div class="pdf-label">コードを書く欄</div>
+          <div class="pdf-code-lines"></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderJson() {
   const text = jsonInput.value.trim();
 
   if (!text) {
     output.innerHTML = `<div class="empty-text">JSONが入力されていません。</div>`;
+    pdfArea.innerHTML = "";
     setStatus("JSONを貼り付けてください。");
     return;
   }
@@ -244,15 +334,17 @@ function renderJson() {
     html += createResultCard("応用", data.advanced);
 
     output.innerHTML = html;
+    pdfArea.innerHTML = buildPdfHtml(data);
     setStatus("JSONを表示しました。");
   } catch (error) {
     output.innerHTML = `<div class="empty-text">表示できませんでした。</div>`;
+    pdfArea.innerHTML = "";
     setStatus("JSONエラー: " + error.message);
   }
 }
 
 function exportPdf() {
-  if (!output.innerHTML.trim()) {
+  if (!pdfArea.innerHTML.trim()) {
     setStatus("先にJSONを表示してください。");
     return;
   }
@@ -320,6 +412,7 @@ toolsSelect.addEventListener("change", async () => {
   promptText.value = "";
   jsonInput.value = "";
   output.innerHTML = "";
+  pdfArea.innerHTML = "";
   noteBox.textContent = "処理を選ぶとメモが表示されます。";
 
   if (!tools) {
@@ -384,6 +477,7 @@ btnResetJson.addEventListener("click", () => {
   }
   jsonInput.value = "";
   output.innerHTML = "";
+  pdfArea.innerHTML = "";
   setStatus("JSON入力欄をリセットしました。");
 });
 
