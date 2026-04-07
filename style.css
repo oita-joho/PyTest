@@ -167,8 +167,111 @@ button:hover {
   color: #666;
 }
 
-.print-title {
-  display: block;
+.pdf-area {
+  display: none;
+}
+
+.pdf-sheet {
+  background: #fff;
+  color: #000;
+  padding: 10mm 12mm;
+  line-height: 1.7;
+}
+
+.pdf-main-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.pdf-intent {
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+.pdf-meta-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  border: 1px solid #333;
+  margin-bottom: 18px;
+}
+
+.pdf-meta-cell {
+  min-height: 34px;
+  padding: 8px 10px;
+  border-right: 1px solid #333;
+  font-size: 14px;
+}
+
+.pdf-meta-cell:last-child {
+  border-right: none;
+}
+
+.pdf-section {
+  margin-top: 18px;
+  margin-bottom: 18px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.pdf-section-title {
+  font-size: 18px;
+  font-weight: bold;
+  border-left: 6px solid #000;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+
+.pdf-question,
+.pdf-code,
+.pdf-output,
+.pdf-answer-space,
+.pdf-code-space {
+  margin-top: 10px;
+}
+
+.pdf-label {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.pdf-code-box,
+.pdf-output-box {
+  border: 1px solid #333;
+  padding: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 14px;
+  background: #fff;
+}
+
+.pdf-answer-lines {
+  border: 1px solid #333;
+  padding: 8px 10px;
+  min-height: 110px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #fff 0,
+      #fff 27px,
+      #bbb 28px
+    );
+}
+
+.pdf-code-lines {
+  border: 1px solid #333;
+  padding: 8px 10px;
+  min-height: 220px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #fff 0,
+      #fff 27px,
+      #bbb 28px
+    );
+  font-family: Consolas, Monaco, monospace;
 }
 
 @media (max-width: 700px) {
@@ -205,34 +308,23 @@ button:hover {
     padding: 0;
   }
 
-  .no-print {
+  .no-print,
+  #output {
     display: none !important;
   }
 
-  .print-panel {
+  .panel {
     border: none;
     box-shadow: none;
     margin: 0;
     padding: 0;
   }
 
-  .print-title {
-    margin: 0 0 12px;
-    font-size: 22px;
-    color: #000;
+  .pdf-area {
+    display: block !important;
   }
 
-  .result-card {
-    box-shadow: none;
-    border: 1px solid #999;
-    break-inside: avoid;
-    page-break-inside: avoid;
-    margin-bottom: 16px;
-  }
-
-  .code-block,
-  .answer-block {
-    border: 1px solid #999;
-    background: #fff;
+  .pdf-sheet {
+    display: block;
   }
 }
