@@ -1,4 +1,4 @@
-const GAS_URL = "ここにGASのWebアプリURLを貼る";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxjbXozAcJ8gNT8AXtvtbAGI9B_mBz4RZ2B7k_MkP80bVhv30uy1i_6BZ1dDWrS0jldBA/exec";
 
 const toolsSelect = document.getElementById("toolsSelect");
 const taskSelect = document.getElementById("taskSelect");
