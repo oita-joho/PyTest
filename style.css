@@ -167,6 +167,7 @@ button:hover {
   color: #666;
 }
 
+/* PDF専用エリア */
 .pdf-area {
   display: none;
 }
@@ -188,6 +189,7 @@ button:hover {
 .pdf-intent {
   margin-bottom: 14px;
   font-size: 14px;
+  line-height: 1.8;
 }
 
 .pdf-meta-row {
@@ -245,6 +247,7 @@ button:hover {
   font-family: Consolas, Monaco, monospace;
   font-size: 14px;
   background: #fff;
+  line-height: 1.6;
 }
 
 .pdf-answer-lines {
@@ -272,6 +275,10 @@ button:hover {
       #bbb 28px
     );
   font-family: Consolas, Monaco, monospace;
+}
+
+.print-title {
+  display: block;
 }
 
 @media (max-width: 700px) {
@@ -318,6 +325,11 @@ button:hover {
     box-shadow: none;
     margin: 0;
     padding: 0;
+    background: #fff;
+  }
+
+  .print-panel {
+    display: block;
   }
 
   .pdf-area {
@@ -326,5 +338,9 @@ button:hover {
 
   .pdf-sheet {
     display: block;
+  }
+
+  .print-title {
+    display: none;
   }
 }
