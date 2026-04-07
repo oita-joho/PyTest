@@ -1,116 +1,66 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Python 問題プリント（無料AI連携）</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python問題作成ツール</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrap">
-    <h1>Python 問題プリント（無料AI連携）</h1>
+  <div class="container">
+    <header class="page-header">
+      <h1>Python問題作成ツール</h1>
+      <p class="subtext">使うものを選び、処理を選んで、問題作成用プロンプトを作ります。</p>
+    </header>
 
-    <div class="controls-block">
-      <div class="row">
-        <label for="toolsText">使うもの</label>
-        <input id="toolsText" type="text" placeholder="例: for, range, print">
-      </div>
+    <section class="panel">
+      <h2>① 使うものを選ぶ</h2>
+      <select id="toolsSelect">
+        <option value="">読み込み中...</option>
+      </select>
+    </section>
 
-      <div class="row">
-        <label for="taskText">したい処理</label>
-        <input id="taskText" type="text" placeholder="例: ある文字列を4回表示する">
-      </div>
+    <section class="panel">
+      <h2>② 処理を選ぶ</h2>
+      <select id="taskSelect">
+        <option value="">先に使うものを選んでください</option>
+      </select>
+    </section>
 
+    <section class="panel note-panel">
+      <h2>③ 例題メモ</h2>
+      <div id="noteBox" class="note-box">処理を選ぶとメモが表示されます。</div>
+    </section>
+
+    <section class="panel button-panel">
+      <button id="btnMakePrompt" class="primary-btn">問題作成用プロンプトを作る</button>
+      <button id="btnCopyPrompt" class="sub-btn">プロンプトをコピー</button>
+    </section>
+
+    <section class="panel">
+      <h2>④ 生成されたプロンプト</h2>
+      <textarea id="promptText" placeholder="ここにプロンプトが表示されます"></textarea>
+    </section>
+
+    <section class="panel">
+      <h2>⑤ AIが返したJSONを貼り付け</h2>
+      <textarea id="jsonInput" placeholder="ここにAIが返したJSONを貼り付けます"></textarea>
       <div class="button-row">
-        <button id="btnExample1" type="button">例1を入れる</button>
-        <button id="btnExample2" type="button">例2を入れる</button>
-        <button id="btnMakePrompt" type="button">AI用プロンプト作成</button>
-        <button id="btnCopyPrompt" type="button">プロンプトをコピー</button>
-        <button id="btnLoadJson" type="button">JSONを読み込む</button>
-        <button id="btnPdf" type="button">PDF出力</button>
+        <button id="btnRenderJson" class="primary-btn">表示する</button>
+        <button id="btnResetJson" class="danger-btn">リセット</button>
+        <button id="btnSaveJson" class="success-btn">JSONを保存</button>
       </div>
-    </div>
+    </section>
 
-    <div class="card">
-      <div class="subhead">① AIに渡すプロンプト</div>
-      <textarea id="promptBox" rows="18" placeholder="ここにAIへ渡す指示文が出ます"></textarea>
-    </div>
+    <section class="panel">
+      <h2>⑥ 表示結果</h2>
+      <div id="output"></div>
+    </section>
 
-    <div class="card">
-      <div class="subhead">② AIが返したJSONを貼り付け</div>
-      <textarea id="jsonBox" rows="18" placeholder='ここにAIが返したJSONを貼ってください'></textarea>
-    </div>
-
-    <div id="status" class="status">「使うもの」と「したい処理」を入力して、「AI用プロンプト作成」を押してください。</div>
-
-    <div class="print-header">
-      <div class="meta-box">出席番号：</div>
-      <div class="meta-box">名前：</div>
-      <div class="meta-box">得点：</div>
-    </div>
-
-    <div class="grid4">
-      <!-- 完成した問題 -->
-      <div class="card">
-        <div class="pill">① 完成した問題</div>
-        <div id="masterQuestion" class="question-text"></div>
-        <pre id="masterCode"></pre>
-        <div class="subhead">出力：</div>
-        <div id="masterOutput" class="output-box"></div>
-
-        <div id="masterAnswerArea">
-          <div class="subhead">正解：</div>
-          <div id="masterAnswer" class="answer-box"></div>
-          <div class="subhead">解説：</div>
-          <div id="masterExplanation" class="answer-box"></div>
-        </div>
-      </div>
-
-      <!-- 基礎 -->
-      <div class="card">
-        <div class="pill basic">② 基礎</div>
-        <div id="basicQuestion" class="question-text"></div>
-        <pre id="basicCode"></pre>
-
-        <div id="basicAnswerArea" class="teacher-only">
-          <div class="subhead">正解：</div>
-          <div id="basicAnswer" class="answer-box"></div>
-          <div class="subhead">解説：</div>
-          <div id="basicExplanation" class="answer-box"></div>
-        </div>
-      </div>
-
-      <!-- 標準 -->
-      <div class="card">
-        <div class="pill standard">③ 標準</div>
-        <div id="standardQuestion" class="question-text"></div>
-        <pre id="standardCode"></pre>
-        <div class="subhead">出力：</div>
-        <div id="standardOutput" class="output-box"></div>
-
-        <div id="standardAnswerArea" class="teacher-only">
-          <div class="subhead">正解：</div>
-          <div id="standardAnswer" class="answer-box"></div>
-          <div class="subhead">解説：</div>
-          <div id="standardExplanation" class="answer-box"></div>
-        </div>
-      </div>
-
-      <!-- 応用 -->
-      <div class="card">
-        <div class="pill advanced">④ 応用（コードを書け）</div>
-        <div id="advancedQuestion" class="question-text"></div>
-        <div class="subhead">出力：</div>
-        <div id="advancedOutput" class="output-box"></div>
-
-        <div class="write-area"></div>
-        <div class="write-area"></div>
-        <div class="write-area"></div>
-        <div class="write-area"></div>
-        <div class="write-area"></div>
-        <div class="write-area"></div>
-      </div>
-    </div>
+    <section class="panel">
+      <h2>状態</h2>
+      <div id="status" class="status">準備中です。</div>
+    </section>
   </div>
 
   <script src="app.js"></script>
