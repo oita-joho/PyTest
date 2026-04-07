@@ -8,56 +8,57 @@
 </head>
 <body>
   <div class="container">
-    <header class="page-header">
+    <header class="page-header no-print">
       <h1>プログラム確認問題_Python版</h1>
       <p class="subtext">使うものを選び、処理を選んで、問題作成用プロンプトを作ります。</p>
     </header>
 
-    <section class="panel">
+    <section class="panel no-print">
       <h2>① 使うものを選ぶ</h2>
       <select id="toolsSelect">
         <option value="">読み込み中...</option>
       </select>
     </section>
 
-    <section class="panel">
+    <section class="panel no-print">
       <h2>② 処理を選ぶ</h2>
       <select id="taskSelect">
         <option value="">先に使うものを選んでください</option>
       </select>
     </section>
 
-    <section class="panel note-panel">
+    <section class="panel note-panel no-print">
       <h2>③ 例題メモ</h2>
       <div id="noteBox" class="note-box">処理を選ぶとメモが表示されます。</div>
     </section>
 
-    <section class="panel button-panel">
+    <section class="panel button-panel no-print">
       <button id="btnMakePrompt" class="primary-btn">問題作成用プロンプトを作る</button>
       <button id="btnCopyPrompt" class="sub-btn">プロンプトをコピー</button>
     </section>
 
-    <section class="panel">
+    <section class="panel no-print">
       <h2>④ 生成されたプロンプト</h2>
       <textarea id="promptText" placeholder="ここにプロンプトが表示されます"></textarea>
     </section>
 
-    <section class="panel">
+    <section class="panel no-print">
       <h2>⑤ AIが返したJSONを貼り付け</h2>
       <textarea id="jsonInput" placeholder="ここにAIが返したJSONを貼り付けます"></textarea>
       <div class="button-row">
         <button id="btnRenderJson" class="primary-btn">表示する</button>
         <button id="btnResetJson" class="danger-btn">リセット</button>
         <button id="btnSaveJson" class="success-btn">JSONを保存</button>
+        <button id="btnPdf" class="sub-btn">PDFにする</button>
       </div>
     </section>
 
-    <section class="panel">
-      <h2>⑥ 表示結果</h2>
+    <section class="panel print-panel">
+      <h2 class="print-title">⑥ 表示結果</h2>
       <div id="output"></div>
     </section>
 
-    <section class="panel">
+    <section class="panel no-print">
       <h2>状態</h2>
       <div id="status" class="status">準備中です。</div>
     </section>
