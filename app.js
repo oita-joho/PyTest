@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyHwm7D2bDFumEM69ozn-bsEGwEZIVlGL6DN9a4KDPCE3JyvL9iC_Cgi4zrj60oeQnHfg/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxmIceyLpgbJRJMrdFVcG03NEIkcBLzSNXfIwOw5mnl5XszanPNoofpkIizA3-sk0c6Pg/exec";
 
 const toolsSelect = document.getElementById("toolsSelect");
 const taskSelect = document.getElementById("taskSelect");
